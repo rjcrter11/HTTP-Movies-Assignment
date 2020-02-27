@@ -12,17 +12,6 @@ const initialValues = {
 const UpdateForm = (props) => {
   const [movie, setMovie] = useState(initialValues);
 
-  // const handleSend = () => {
-  //   if (typeof movie.stars === "string") {
-  //     const starArray = movie.stars.split(",");
-  //     console.log("the star array", starArray);
-  //     setMovie({
-  //       ...movie,
-  //       stars: starArray
-  //     });
-  //   }
-  // };
-
   console.log("movie log in updateForm", movie);
 
   const { id } = useParams();
@@ -60,15 +49,12 @@ const UpdateForm = (props) => {
   };
 
   const handleSubmit = (e) => {
-    console.log("fuuuuuuck");
     e.preventDefault();
 
     quickAxios()
       .put(`movies/${id}`, movie)
       .then((res) => {
-        console.log(res.data.id);
-        // handleSend();
-        // setMovie({});
+        console.log(res);
         history.push("/");
       })
 
@@ -109,7 +95,7 @@ const UpdateForm = (props) => {
           return (
             <div className="form-inputs">
               <input
-                // key={index}
+                key={index}
                 type="text"
                 name="stars"
                 placeholder="Stars"
