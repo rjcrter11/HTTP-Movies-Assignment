@@ -57,8 +57,12 @@ function Movie(props) {
       <div className="save-button" onClick={saveMovie}>
         Save
       </div>
-      <button onClick={clickHandler}>Update</button>
-      <button onClick={handleDelete}>Delete</button>
+      <button classname="update-btn" onClick={clickHandler}>
+        Update
+      </button>
+      <button className="delete-btn" onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 }

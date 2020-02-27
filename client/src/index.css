@@ -61,6 +61,25 @@ body {
   padding: 5px 10px;
   background-color: lightseagreen;
 }
+
+.delete-btn {
+  position: absolute;
+  /* top: 80px; */
+  bottom: 50px;
+  right: 25px;
+  border: 1px solid gray;
+  padding: 7px 9px;
+  background-color: lightseagreen;
+  width: 59px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.delete-btn:hover {
+  background-color: green;
+  color: white;
+}
+
 .save-button:hover {
   background-color: green;
   color: white;
@@ -73,5 +92,35 @@ body {
 
 .movie-warning {
   color: red;
+  text-align: center;
+}
+
+.form {
+  width: 260px;
+  margin: 0 auto;
+  border: 1px solid black;
+  padding: 8px;
+}
+
+input {
+  width: 98%;
+  margin-bottom: 5px;
+  padding: 4px 0;
+}
+
+.submit-btn {
+  width: 30%;
+  margin-left: 33%;
+  padding: 4px 0;
+  border-radius: 4px;
+  background-color: lightseagreen;
+  font-size: 14px;
+}
+.submit-btn:hover {
+  background-color: green;
+  color: white;
+}
+
+.update-form {
   text-align: center;
 }

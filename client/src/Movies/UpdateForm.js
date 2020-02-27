@@ -10,8 +10,18 @@ const initialValues = {
 };
 
 const UpdateForm = (props) => {
-  // console.log("log props in UpdateForm component", props);
-  const [movie, setMovie] = useState({});
+  const [movie, setMovie] = useState(initialValues);
+
+  // const handleSend = () => {
+  //   if (typeof movie.stars === "string") {
+  //     const starArray = movie.stars.split(",");
+  //     console.log("the star array", starArray);
+  //     setMovie({
+  //       ...movie,
+  //       stars: starArray
+  //     });
+  //   }
+  // };
 
   console.log("movie log in updateForm", movie);
 
@@ -24,6 +34,9 @@ const UpdateForm = (props) => {
     if (movieToUpdate) {
       setMovie(movieToUpdate);
     }
+    quickAxios()
+      .get(`movies/${id}`)
+      .then((res) => setMovie(res.data));
   }, [props.movieList, id]);
 
   const handleChanges = (e) => {
@@ -32,27 +45,30 @@ const UpdateForm = (props) => {
     if (e.target.name === "metascore") {
       value = parseInt(value, 10);
     }
-
     setMovie({
       ...movie,
       [e.target.name]: value
     });
   };
+  const handleStar = (index) => (e) => {
+    setMovie({
+      ...movie,
+      stars: movie.stars.map((star, starIndex) => {
+        return starIndex === index ? e.target.value : star;
+      })
+    });
+  };
 
-  // const handleStars = (index) => (e) => {
-  //   setMovie({
-  //     ...movie
-  //   });
-  // };
-  console.log("props.movielist", props.movieList);
   const handleSubmit = (e) => {
+    console.log("fuuuuuuck");
     e.preventDefault();
 
     quickAxios()
-      .put(`movies/${movie.id}`, movie)
+      .put(`movies/${id}`, movie)
       .then((res) => {
         console.log(res.data.id);
-        setMovie({});
+        // handleSend();
+        // setMovie({});
         history.push("/");
       })
 
@@ -61,8 +77,8 @@ const UpdateForm = (props) => {
 
   return (
     <div>
-      <h2>Update Movie</h2>
-      <form onSubmit={handleSubmit}>
+      <h2 className="update-form">Update Movie</h2>
+      <form className="form" onSubmit={handleSubmit}>
         <input
           type="text"
           name="title"
@@ -88,21 +104,25 @@ const UpdateForm = (props) => {
             onChange={handleChanges}
           />
         </div>
-        <div className="form-inputs">
-          {/* {movie.stars.map((name, index) => { */}
 
-          <input
-            // key={index}
-            type="text"
-            name="stars"
-            placeholder="Stars"
-            value={movie.stars}
-            onChange={handleChanges}
-          />
+        {movie.stars.map((starName, index) => {
+          return (
+            <div className="form-inputs">
+              <input
+                // key={index}
+                type="text"
+                name="stars"
+                placeholder="Stars"
+                value={starName}
+                onChange={handleStar(index)}
+              />
+            </div>
+          );
+        })}
 
-          {/* })} */}
-        </div>
-        <button type="submit">Submit</button>
+        <button className="submit-btn" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );
