@@ -24,7 +24,7 @@ function Movie(props) {
     quickAxios()
       .delete(`movies/${deletedMovie.id}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const newArray = props.movieList.filter(
           (item) => item.id !== deletedMovie.id
         );

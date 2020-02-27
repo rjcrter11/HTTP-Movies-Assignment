@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { quickAxios } from "../utils/axios";
 const initialValues = {
-  id: Date.now(),
+  id: null,
   title: "",
   director: "",
   metascore: "",
@@ -11,7 +11,9 @@ const initialValues = {
 
 const UpdateForm = (props) => {
   // console.log("log props in UpdateForm component", props);
-  const [movie, setMovie] = useState(initialValues);
+  const [movie, setMovie] = useState({});
+
+  console.log("movie log in updateForm", movie);
 
   const { id } = useParams();
   const history = useHistory();
@@ -42,39 +44,15 @@ const UpdateForm = (props) => {
   //     ...movie
   //   });
   // };
-
-  const handleSubmit = (e, index) => {
+  console.log("props.movielist", props.movieList);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    e.persist();
+
     quickAxios()
-      .put(`movies/${id}`, movie)
+      .put(`movies/${movie.id}`, movie)
       .then((res) => {
         console.log(res.data.id);
-        //  props.setMovieList(res.data);
-        props.setMovieList(
-          props.movieList.map((item) => {
-            if (item.id === res.data.id) {
-              props.movieList.splice(Number(id), 1, res.data);
-            }
-          })
-        );
-
-        // props.setMovieList(
-        //   props.movieList.map((item) => {
-        //     if (item.id === res.data.id) {
-        //       console.log(res.data.id);
-        //       item = { ...item, item: res.data };
-        //     }
-        //   })
-        // );
-
-        // const newMovieArr = props.movieList.map((item, index) => {
-        //   if (item.id === movie.id) {
-        //     props.setMovieList(item.slice(item[index], 1, res.data));
-        //     return newMovieArr;
-        //   }
-        // });
-
+        setMovie({});
         history.push("/");
       })
 
