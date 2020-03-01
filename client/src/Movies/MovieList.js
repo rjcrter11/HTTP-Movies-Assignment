@@ -4,7 +4,7 @@ import MovieCard from "./MovieCard";
 import { quickAxios } from "../utils/axios";
 
 function MovieList({ movies, setMovieList }) {
-  const history = useHistory();
+  // const history = useHistory();
 
   const getMovieList = () => {
     quickAxios()
@@ -13,15 +13,16 @@ function MovieList({ movies, setMovieList }) {
   };
   useEffect(() => {
     getMovieList();
-  }, [movies]);
+  }, []);
 
-  const clickHandle = () => {
-    history.push("/add-movie");
-  };
+  // const clickHandle = () => {
+  //   history.push("/add-movie");
+  // };
 
   return (
     <div>
-      <button onClick={clickHandle}>Add a Movie</button>
+      <Link to="/add-movie">Add a Movie</Link>
+      {/* <button onClick={clickHandle}>Add a Movie</button> */}
       <div className="movie-list">
         {movies.map((movie) => (
           <Link key={movie.id} to={`/movies/${movie.id}`}>
