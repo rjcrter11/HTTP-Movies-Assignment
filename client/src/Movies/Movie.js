@@ -1,21 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useRouteMatch } from 'react-router-dom';
-import MovieCard from './MovieCard';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useRouteMatch, useParams, useHistory } from "react-router-dom";
+import MovieCard from "./MovieCard";
+import { quickAxios } from "../utils/axios";
 
-function Movie({ addToSavedList }) {
+function Movie(props) {
+  console.log("props from movie component", props);
   const [movie, setMovie] = useState(null);
   const match = useRouteMatch();
+  const { id } = useParams();
+  const history = useHistory();
 
-  const fetchMovie = id => {
+  const deletedMovie = props.movieList.find((item) => `${item.id}` === id);
+
+  const fetchMovie = (id) => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
-      .then(res => setMovie(res.data))
-      .catch(err => console.log(err.response));
+      .then((res) => setMovie(res.data))
+      .catch((err) => console.log(err.response));
+  };
+
+  const handleDelete = () => {
+    quickAxios()
+      .delete(`movies/${deletedMovie.id}`)
+      .then((res) => {
+        // console.log(res);
+        const newArray = props.movieList.filter(
+          (item) => item.id !== deletedMovie.id
+        );
+        props.setMovieList(newArray);
+        history.push("/");
+      })
+      .catch((err) => console.log(err));
   };
 
   const saveMovie = () => {
-    addToSavedList(movie);
+    props.addToSavedList(movie);
+  };
+  const clickHandler = (e) => {
+    e.preventDefault();
+    history.push(`/update-movie/${id}`);
   };
 
   useEffect(() => {
@@ -27,12 +51,18 @@ function Movie({ addToSavedList }) {
   }
 
   return (
-    <div className='save-wrapper'>
+    <div className="save-wrapper">
       <MovieCard movie={movie} />
 
-      <div className='save-button' onClick={saveMovie}>
+      <div className="save-button" onClick={saveMovie}>
         Save
       </div>
+      <button className="update-btn" onClick={clickHandler}>
+        Update
+      </button>
+      <button className="delete-btn" onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 }
